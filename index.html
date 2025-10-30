@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Gundam Build Tracker</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main>
+      <header>
+        <h1>Gundam Build Tracker</h1>
+        <p>
+          Capture every Gunpla you are working on, track its progress through
+          the build stages, and keep quick notes on paint schemes, decals, or
+          custom mods. Data is stored locally in your browser so you can tweak
+          and experiment freely.
+        </p>
+        <p class="hint-strip">
+          Tip: Bookmark this page or run it locally. Your build list is saved to
+          browser storage on this device. Export/Import will arrive in a future
+          version.
+        </p>
+      </header>
+
+      <section id="overview">
+        <h2>Hangar Overview</h2>
+        <div class="summary-grid" id="summary-grid">
+          <!-- Summary tiles rendered here -->
+        </div>
+      </section>
+
+      <section id="new-build">
+        <h2>Log A New Kit</h2>
+        <form id="build-form">
+          <div class="form-row">
+            <label>
+              Kit Name
+              <input
+                type="text"
+                name="kitName"
+                placeholder="e.g. RX-78-2 Revive"
+                required
+                autocomplete="off"
+              />
+            </label>
+            <label>
+              Grade
+              <select name="grade" required>
+                <option value="High Grade">High Grade (HG)</option>
+                <option value="Real Grade">Real Grade (RG)</option>
+                <option value="Master Grade">Master Grade (MG)</option>
+                <option value="Perfect Grade">Perfect Grade (PG)</option>
+                <option value="Full Mechanics">Full Mechanics</option>
+                <option value="Entry Grade">Entry Grade (EG)</option>
+                <option value="Other">Custom / Other</option>
+              </select>
+            </label>
+            <label>
+              Scale
+              <input
+                type="text"
+                name="scale"
+                placeholder="e.g. 1/144"
+                required
+              />
+            </label>
+          </div>
+
+          <div class="form-row">
+            <label>
+              Stage
+              <select name="status" required>
+                <option value="Backlog">Backlog</option>
+                <option value="Preparation">Preparation</option>
+                <option value="Snap Build">Snap Build</option>
+                <option value="Detailing">Detailing</option>
+                <option value="Paint & Finish">Paint &amp; Finish</option>
+                <option value="Showcase Ready">Showcase Ready</option>
+              </select>
+            </label>
+            <label>
+              Started On
+              <input type="date" name="started" />
+            </label>
+            <label>
+              Target Finish
+              <input type="date" name="target" />
+            </label>
+          </div>
+
+          <label>
+            Notes &amp; custom work
+            <textarea
+              name="notes"
+              placeholder="Highlights, paint recipe, mod ideas..."
+            ></textarea>
+          </label>
+
+          <div class="actions">
+            <button class="primary" type="submit">Add Build</button>
+            <button class="secondary" type="button" id="sample-builds">
+              Load Sample Builds
+            </button>
+            <button class="danger" type="button" id="clear-builds">
+              Clear Tracker
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <section id="build-board">
+        <div class="board-header">
+          <h2>Active Builds</h2>
+          <div class="filters">
+            <label for="status-filter">Stage Filter</label>
+            <select id="status-filter">
+              <option value="all">All builds</option>
+            </select>
+          </div>
+        </div>
+        <div id="build-list" aria-live="polite"></div>
+      </section>
+
+      <footer>Built with ❤️ for Gunpla creativity.</footer>
+    </main>
+
+    <template id="build-card-template">
+      <article class="build-card">
+        <div class="build-headline">
+          <div>
+            <h3 data-field="kitName"></h3>
+            <span data-field="gradeScale"></span>
+          </div>
+          <div class="card-actions">
+            <button class="secondary" data-action="step-back">Prev Stage</button>
+            <button class="primary" data-action="step-forward">
+              Advance Stage
+            </button>
+            <button class="danger" data-action="delete">Remove</button>
+          </div>
+        </div>
+        <span class="tag" data-field="statusTag"></span>
+
+        <dl class="meta-grid">
+          <div>
+            <dt>Started</dt>
+            <dd data-field="started">—</dd>
+          </div>
+          <div>
+            <dt>Target</dt>
+            <dd data-field="target">—</dd>
+          </div>
+          <div>
+            <dt>Last Update</dt>
+            <dd data-field="updated">—</dd>
+          </div>
+        </dl>
+
+        <div>
+          <div class="progress-label">
+            <span data-field="stageLabel"></span>
+            <span data-field="progressValue"></span>
+          </div>
+          <div class="progress-shell">
+            <div class="progress-bar" data-field="progressBar"></div>
+          </div>
+        </div>
+
+        <p class="notes" data-field="notes"></p>
+      </article>
+    </template>
+    <script src="app.js"></script>
+  </body>
+</html>
